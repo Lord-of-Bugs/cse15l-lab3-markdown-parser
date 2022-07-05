@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MarkdownParse {
 
@@ -85,7 +87,13 @@ public class MarkdownParse {
     public static void main(String[] args) throws IOException {
         Path fileName = Path.of(args[0]);
         String contents = Files.readString(fileName);
-        ArrayList<String> links = getLinks(contents);
+        // ArrayList<String> links = getLinks(contents);
+        ArrayList<String> links = new ArrayList<>();
+        Matcher matcher = Pattern.compile("\\[[\\w]+\\](.+)").matcher(contents);
+        while (matcher.find()) {
+            // String toAdd = matcher.group().replace('(', '').replace();
+            links.add(matcher.group().strip().trim());
+        }
         System.out.println(links);
     }
 }
